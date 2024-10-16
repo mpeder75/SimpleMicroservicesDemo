@@ -15,3 +15,26 @@ Simple Microservices Demo. A very simple system with a Customer and a Order serv
 
 Branch: CH-01
 
+CustomerService:
+
+```powershell
+KbrOnionTemplate-Core-8.bat
+Enter application name: CustomerService
+```
+
+cd..
+
+OrderService
+
+```powershell
+KbrOnionTemplate-Core-8.bat
+Enter application name: OrderService
+```
+
+
+
+Create a empty solution to include both services.
+
+The solution looks like this:
+
+![](Images\CH-01-Folders-01.jpg)
