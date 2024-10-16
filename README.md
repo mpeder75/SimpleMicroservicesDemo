@@ -38,3 +38,96 @@ Create a empty solution to include both services.
 The solution looks like this:
 
 ![](Images\CH-01-Folders-01.jpg)
+
+
+
+### Chapter 2: Implement CustomerService using a MSSSQL database with seeded data
+
+Branch: CH-02
+
+Crosscut projekt created
+
+I de enkelte projekter implementeres: DependencyInjection som udfylder IoC med klasser fra dette projekt.
+
+Domain - Customer oprettet.
+
+Infrastructure:
+
+- CustomerContext oprettet
+- DependencyInjection udfyldt
+- DB connection string: CustomerDbConnection som er i API projektet appsettings.json filen
+
+
+
+Query oprettes: 
+
+```csharp
+namespace CustomerService.Application.Query;
+
+public interface ICustomerQuery
+{
+    CustomerDto
+        GetCustomer(int id);
+}
+```
+
+
+
+Interface implementeres i infrastructure og oprettes i DependencyInjection.
+
+
+
+API Endpoint oprettes i program.cs:
+
+```csharp
+app.MapGet("/Customer/{id}", (int id, ICustomerQuery query) =>
+{
+var result = query.GetCustomer(id);
+    return result;
+});
+```
+
+
+
+
+
+Det sikres at databasen er oprettet - og hvis ikke så opret den:
+
+```csharp
+    public CustomerContext(DbContextOptions<CustomerContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
+```
+
+Seed af data:
+
+```csharp
+namespace CustomerService.Infrastructure.Database;
+
+public class SeedDatabase
+{
+    public static void UpdateDatabase(IServiceProvider ioc)
+    {
+        using (var serviceScope = ioc.CreateScope())
+        {
+            var db = serviceScope.ServiceProvider.GetRequiredService<CustomerContext>();
+            if (!db.Customers.Any())
+            {
+                db.Customers.Add(Customer.Create(1000));
+                db.SaveChanges();
+            }
+        }
+    }
+}
+```
+
+
+
+i Program.cs:
+
+```csharp
+var app = builder.Build();
+SeedDatabase.UpdateDatabase(app.Services);
+```
+

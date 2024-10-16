@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Domain.Test", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Infrastructure", "OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{24B49361-2B06-4E60-A7A4-B819E3ED6461}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosscut", "Crosscut\Crosscut.csproj", "{F3C6408E-8E03-481F-B2DE-8E7896661F7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{24B49361-2B06-4E60-A7A4-B819E3ED6461}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24B49361-2B06-4E60-A7A4-B819E3ED6461}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24B49361-2B06-4E60-A7A4-B819E3ED6461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
