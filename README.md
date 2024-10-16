@@ -13,5 +13,5 @@ Simple Microservices Demo. A very simple system with a Customer and a Order serv
 
 ### Chaper 1: Create OrderService and CustomerServices using a Onion template
 
-Branch: CH01
+Branch: CH-01
 
