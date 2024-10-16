@@ -8,6 +8,7 @@ Simple Microservices Demo. A very simple system with a Customer and a Order serv
 1. Create OrderService and CustomerServices using a Onion template (KbrOnionTemplate-Core-8.bat)
 2. Implement CustomerService using a MSSSQL database with seeded data
 3. Implement OrderService using a MSSSQL database. And using a domain service to check creditmax. The domain service uses a CustomerProxy (HttpClient) to talk to the CustomerService.
+4. Run in docker
 
 
 
@@ -255,3 +256,8 @@ public record OrderDto(
 
 
 
+### Chapter 4: Run in docker
+
+Make Dockerfiles
+
+Make Docker Compose file
