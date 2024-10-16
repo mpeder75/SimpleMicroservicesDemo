@@ -7,7 +7,7 @@ Simple Microservices Demo. A very simple system with a Customer and a Order serv
 
 1. Create OrderService and CustomerServices using a Onion template (KbrOnionTemplate-Core-8.bat)
 2. Implement CustomerService using a MSSSQL database with seeded data
-3. Implement OrderService using a MSSSQL database with seeded data. And using a domain service to check creditmax. The domain service uses a CustomerProxy (HttpClient) to talk to the CustomerService.
+3. Implement OrderService using a MSSSQL database. And using a domain service to check creditmax. The domain service uses a CustomerProxy (HttpClient) to talk to the CustomerService.
 
 
 
@@ -130,4 +130,128 @@ i Program.cs:
 var app = builder.Build();
 SeedDatabase.UpdateDatabase(app.Services);
 ```
+
+
+
+### Chapter 3: Implement OrderService using a MSSSQL database. And using a domain service to check creditmax. The domain service uses a CustomerProxy (HttpClient) to talk to the CustomerService.
+
+Branch: CH-03
+
+I de enkelte projekter implementeres: DependencyInjection som udfylder IoC med klasser fra dette projekt.
+
+Domain - Order oprettet.
+
+```csharp
+public class Order : EntityBase
+{
+    private Order()
+    {
+    }
+
+    protected Order(int customerId, double orderAmount, ICustomerProxy customerService)
+    {
+        CustomerId = customerId;
+        OrderAmount = orderAmount;
+        if (!IsWithinCreditLimit(customerService)) throw new Exception("Order amount exceeds customer credit limit");
+    }
+
+    public int CustomerId { get; protected set; }
+    public double OrderAmount { get; protected set; }
+
+    public static Order Create(int customerId, double orderAmount, IServiceProvider serviceProvider)
+    {
+        var customerService = serviceProvider.GetRequiredService<ICustomerProxy>();
+
+
+        return new Order(customerId, orderAmount, customerService);
+    }
+
+    protected bool IsWithinCreditLimit(ICustomerProxy customerService)
+    {
+        var creditLimit = customerService.GetCustomerCreditLimit(CustomerId).Result;
+        return OrderAmount <= creditLimit;
+    }
+}
+```
+
+
+
+Infrastructure:
+
+- OrderContext oprettet
+- DependencyInjection udfyldt
+- DB connection string: OrderDbConnection som er i API projektet appsettings.json filen
+
+
+
+CustomerProxy
+
+```csharp
+public class CustomerProxy : ICustomerProxy
+{
+    private readonly HttpClient _client;
+    private readonly ILogger<CustomerProxy> _logger;
+
+    public CustomerProxy(HttpClient client, ILogger<CustomerProxy> logger)
+    {
+        _client = client;
+        _logger = logger;
+    }
+
+    async Task<double> ICustomerProxy.GetCustomerCreditLimit(int customerId)
+    {
+        var requestUri = $"/AddressHandler/{customerId}";
+        var response = await _client.GetFromJsonAsync<double>(requestUri);
+
+        return response;
+    }
+}
+```
+
+
+
+IoC opsætning til CustomerProxy
+
+```csharp
+        // External services
+        services.AddHttpClient<ICustomerProxy, CustomerProxy>(client =>
+        {
+            var uri = configuration.GetSection("ExternalServices:Customer:Uri").Value;
+            Debug.Assert(string.Empty != null, "String.Empty != null");
+            client.BaseAddress = new Uri(uri ?? string.Empty);
+        });
+```
+
+
+
+I Application:
+
+OrderCommand oprettes
+
+OrderRepository oprettes i Infrastructure
+
+
+
+I API endpoint oprettes:
+
+```csharp
+app.MapPost("/Order", (OrderDto orderDto, IOrderCommand command) =>
+    {
+        var data = new CreateOrderCommandDto(orderDto.CustomerId, orderDto.OrderAmount);
+        command.CreateOrder(date);
+        return Results.Created();
+    })
+    .WithName("GetWeatherForecast")
+    .WithOpenApi();
+
+app.Run();
+
+public record OrderDto(
+    int CustomerId,
+    double OrderAmount);
+```
+
+
+
+
 
