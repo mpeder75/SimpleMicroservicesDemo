@@ -17,9 +17,15 @@ public class CustomerProxy : ICustomerProxy
 
     async Task<double> ICustomerProxy.GetCustomerCreditLimit(int customerId)
     {
-        var requestUri = $"/AddressHandler/{customerId}";
-        var response = await _client.GetFromJsonAsync<double>(requestUri);
+        var requestUri = $"/Customer/{customerId}";
+        var response = await _client.GetFromJsonAsync<CustomerDto>(requestUri);
 
-        return response;
+        return response.CreditLimit;
     }
+}
+
+public record CustomerDto
+{
+    public int Id { get; set; }
+    public double CreditLimit { get; set; }
 }
