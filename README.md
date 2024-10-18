@@ -261,3 +261,92 @@ public record OrderDto(
 Make Dockerfiles
 
 Make Docker Compose file
+
+Changes in Program.cs files
+
+```csharp
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// app.UseHttpsRedirection();
+
+
+```
+
+
+
+CustomerService.Api - add Docker Orchestration support
+
+OrderService.Api - add Docker Orchestration support
+
+Add SQL image:
+
+```yaml
+services:
+  customerservice.api:
+    image: ${DOCKER_REGISTRY-}customerserviceapi
+    build:
+      context: .
+      dockerfile: CustomerService/CustomerService.Api/Dockerfile
+
+  orderservice.api:
+    image: ${DOCKER_REGISTRY-}orderserviceapi
+    build:
+      context: .
+      dockerfile: OrderService/OrderService.Api/Dockerfile
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+
+
+```
+
+
+
+```yaml
+services:
+  customerservice.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_HTTPS_PORTS: 8081
+      "ConnectionStrings:CustomerDbConnection": "Server=mssql;Database=CustomerDb;User=sa;Password=Password1234!;MultipleActiveResultSets=true;TrustServerCertificate=true"
+    ports:
+      - "18080:8080"
+      - "18081:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - mssql
+  
+  orderservice.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_HTTPS_PORTS: 8081
+      "ConnectionStrings:OrderDbConnection": "Server=mssql;Database=OrderDb;User=sa;Password=Password1234!;MultipleActiveResultSets=true;TrustServerCertificate=true"
+      "ExternalServices:Customer:Uri": "http://customerservice.api:8080"
+    ports:
+      - "28080:8080"
+      - "28081:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - mssql
+
+  mssql:
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password1234!"
+    ports:
+      - 11433:1433 
+
+```
+

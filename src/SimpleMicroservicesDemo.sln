@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosscut", "Crosscut\Crosscut.csproj", "{F3C6408E-8E03-481F-B2DE-8E7896661F7D}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EC87474C-E0C2-4273-A0A0-449EFAC72DAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3C6408E-8E03-481F-B2DE-8E7896661F7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC87474C-E0C2-4273-A0A0-449EFAC72DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC87474C-E0C2-4273-A0A0-449EFAC72DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC87474C-E0C2-4273-A0A0-449EFAC72DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC87474C-E0C2-4273-A0A0-449EFAC72DAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

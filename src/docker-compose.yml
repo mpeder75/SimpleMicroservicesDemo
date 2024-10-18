@@ -1,0 +1,16 @@
+services:
+  customerservice.api:
+    image: ${DOCKER_REGISTRY-}customerserviceapi
+    build:
+      context: .
+      dockerfile: CustomerService/CustomerService.Api/Dockerfile
+
+  orderservice.api:
+    image: ${DOCKER_REGISTRY-}orderserviceapi
+    build:
+      context: .
+      dockerfile: OrderService/OrderService.Api/Dockerfile
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+
