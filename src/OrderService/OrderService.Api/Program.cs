@@ -40,4 +40,5 @@ app.Run();
 
 public record OrderDto(
     int CustomerId,
-    double OrderAmount);
+    double OrderAmount
+    );
