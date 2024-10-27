@@ -4,7 +4,6 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_HTTP_PORTS: 8080
      # ASPNETCORE_HTTPS_PORTS: 8081
-     # "ConnectionStrings:OrderDbConnection": "Server=mssql;Database=OrderDb;User Id=Michael-Desktop;Password=1234;MultipleActiveResultSets=true;TrustServerCertificate=true"
       "ConnectionStrings:CustomerDbConnection": "Server=mssql;Database=CustomerDb;User=sa;Password=Password1234!;MultipleActiveResultSets=true;TrustServerCertificate=true"
     ports:
       - "18080:8080"
@@ -21,7 +20,6 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080
       # ASPNETCORE_HTTPS_PORTS: 8081
       "ConnectionStrings:OrderDbConnection": "Server=mssql;Database=OrderDb;User=sa;Password=Password1234!;MultipleActiveResultSets=true;TrustServerCertificate=true"
-      #"ConnectionStrings:OrderDbConnection": "Server=MICHAEL-PC;Database=OrderDb;User Id=Michael-Desktop;Password=1234;MultipleActiveResultSets=true;TrustServerCertificate=true"
       "ExternalServices:Customer:Uri": "http://customerservice.api:8080"    
     ports:
       - "28080:8080"
