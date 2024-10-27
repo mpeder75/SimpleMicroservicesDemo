@@ -19,7 +19,6 @@ var app = builder.Build();
 // app.UseHttpsRedirection();
 
 // Reverse Proxy middleware tilføjes til pipeline
-
 app.MapReverseProxy();
 
 app.Run();

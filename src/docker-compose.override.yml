@@ -5,8 +5,7 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080    
       "ConnectionStrings:CustomerDbConnection": "Server=mssql;Database=CustomerDb;User=sa;Password=Password1234!;MultipleActiveResultSets=true;TrustServerCertificate=true"
     ports:
-      - "18080:8080" 
-      - "18081:8081"
+      - "18080:8080"       
     depends_on:
       - mssql
   
