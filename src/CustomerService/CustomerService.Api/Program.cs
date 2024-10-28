@@ -26,7 +26,6 @@ if (app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 
 
-
 app.MapGet("/Customer/{id}", (int id, ICustomerQuery query) =>
 {
 var result = query.GetCustomer(id);

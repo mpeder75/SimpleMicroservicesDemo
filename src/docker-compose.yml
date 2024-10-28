@@ -3,29 +3,22 @@ services:
     image: ${DOCKER_REGISTRY-}customerserviceapi
     build:
       context: .
-      dockerfile: CustomerService/CustomerService.Api/Dockerfile
-    ports:
-      - "18080:8080"  # Map container's port 8080 to host's port 18080
+      dockerfile: CustomerService/CustomerService.Api/Dockerfile 
 
   orderservice.api:
     image: ${DOCKER_REGISTRY-}orderserviceapi
     build:
       context: .
       dockerfile: OrderService/OrderService.Api/Dockerfile
-    ports:
-      - "28080:8080"  # Map container's port 8080 to host's port 28080
 
   mssql:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
-    ports:
-      - "11433:1433"  # Map container's port 1433 to host's port 11433
   
   gateway.api:
     image: ${DOCKER_REGISTRY-}gatewayapi
     build:
       context: .
       dockerfile: Gateway.Api/Dockerfile
-    #ports:
-    #- "8081:80"
+   
 
 
